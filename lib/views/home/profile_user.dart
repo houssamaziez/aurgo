@@ -66,22 +66,22 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen>
     final settings = [
       {
         "icon": FontAwesomeIcons.bell,
-        "title": "Notifications",
-        "subtitle": "Enable or disable push notifications",
+        "title": "الإشعارات",
+        "subtitle": "تفعيل أو إيقاف إشعارات التطبيق",
         "type": "switch",
       },
       {
         "icon": FontAwesomeIcons.language,
-        "title": "Language",
-        "subtitle": "Select application language",
+        "title": "اللغة",
+        "subtitle": "اختر لغة التطبيق",
         "type": "sheet",
         "sheet": Column(
           children: const [
             ListTile(
-              title: Text("English", style: TextStyle(color: Colors.white)),
+              title: Text("الإنجليزية", style: TextStyle(color: Colors.white)),
             ),
             ListTile(
-              title: Text("Français", style: TextStyle(color: Colors.white)),
+              title: Text("الفرنسية", style: TextStyle(color: Colors.white)),
             ),
             ListTile(
               title: Text("العربية", style: TextStyle(color: Colors.white)),
@@ -91,27 +91,27 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen>
       },
       {
         "icon": FontAwesomeIcons.moon,
-        "title": "Dark Mode",
-        "subtitle": "Switch between light & dark mode",
+        "title": "الوضع الداكن",
+        "subtitle": "التبديل بين الوضع الفاتح والداكن",
         "type": "switch",
       },
       {
         "icon": FontAwesomeIcons.lock,
-        "title": "Security",
-        "subtitle": "Change password or enable biometrics",
+        "title": "الأمان",
+        "subtitle": "تغيير كلمة المرور أو تفعيل البصمة",
         "type": "nav",
       },
       {
         "icon": FontAwesomeIcons.creditCard,
-        "title": "Payments",
-        "subtitle": "Manage saved cards & payment methods",
+        "title": "المدفوعات",
+        "subtitle": "إدارة البطاقات المحفوظة وطرق الدفع",
         "type": "sheet",
         "sheet": Column(
           children: const [
             ListTile(
               leading: Icon(Icons.credit_card, color: Colors.white),
               title: Text(
-                "Visa **** 2345",
+                "فيزا **** 2345",
                 style: TextStyle(color: Colors.white),
               ),
               trailing: Icon(Icons.check, color: Colors.green),
@@ -119,14 +119,14 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen>
             ListTile(
               leading: Icon(Icons.credit_card, color: Colors.white),
               title: Text(
-                "Mastercard **** 8890",
+                "ماستركارد **** 8890",
                 style: TextStyle(color: Colors.white),
               ),
             ),
             ListTile(
               leading: Icon(Icons.add_circle_outline, color: Colors.white70),
               title: Text(
-                "Add new card",
+                "إضافة بطاقة جديدة",
                 style: TextStyle(color: Colors.white70),
               ),
             ),
@@ -135,20 +135,20 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen>
       },
       {
         "icon": FontAwesomeIcons.headset,
-        "title": "Support",
-        "subtitle": "Contact customer service",
+        "title": "الدعم الفني",
+        "subtitle": "تواصل مع خدمة العملاء",
         "type": "nav",
       },
       {
         "icon": FontAwesomeIcons.circleInfo,
-        "title": "About",
-        "subtitle": "App version, terms & policies",
+        "title": "حول التطبيق",
+        "subtitle": "معلومات النسخة والشروط والسياسات",
         "type": "nav",
       },
       {
         "icon": FontAwesomeIcons.rightFromBracket,
-        "title": "Logout",
-        "subtitle": "Sign out from your account",
+        "title": "تسجيل الخروج",
+        "subtitle": "تسجيل الخروج من حسابك",
         "type": "action",
       },
     ];
@@ -170,7 +170,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen>
                   ),
                   const Spacer(),
                   const Text(
-                    "Profile",
+                    "الملف الشخصي",
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -210,7 +210,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
                         Text(
-                          "Houssam Eddine",
+                          "حسام الدين",
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -270,10 +270,12 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen>
                           );
                         } else if (s["type"] == "action") {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text("Logged out!")),
+                            const SnackBar(
+                              content: Text("تم تسجيل الخروج بنجاح"),
+                            ),
                           );
                         } else {
-                          // navigate or handle
+                          // التنقل أو المعالجة
                         }
                       },
                       child: Container(
@@ -334,12 +336,12 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen>
                             if (s["type"] == "switch")
                               Switch(
                                 value:
-                                    s["title"] == "Dark Mode"
+                                    s["title"] == "الوضع الداكن"
                                         ? isDarkMode
                                         : isNotificationEnabled,
                                 onChanged: (val) {
                                   setState(() {
-                                    if (s["title"] == "Dark Mode") {
+                                    if (s["title"] == "الوضع الداكن") {
                                       isDarkMode = val;
                                     } else {
                                       isNotificationEnabled = val;

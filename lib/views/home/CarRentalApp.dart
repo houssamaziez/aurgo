@@ -337,20 +337,30 @@ class _CarRentalHomeState extends State<CarRentalHome>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        car.name,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        car.model,
-                        style: const TextStyle(
-                          color: Colors.white60,
-                          fontSize: 12,
-                        ),
+                      Row(
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                car.name,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                car.model,
+                                style: const TextStyle(
+                                  color: Colors.white60,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Spacer(),
+                          _primaryButton('تفاصيل', () => _openBooking(car)),
+                        ],
                       ),
                       const SizedBox(height: 8),
                       Row(
@@ -382,7 +392,6 @@ class _CarRentalHomeState extends State<CarRentalHome>
                   ),
                 ),
                 const SizedBox(width: 8),
-                _primaryButton('تفاصيل', () => _openBooking(car)),
               ],
             ),
           ),
@@ -648,16 +657,14 @@ class _BookingSheetState extends State<BookingSheet>
     });
   }
 
-  _dateTheme(context, child) {
-    return Theme.of(context).copyWith(
-      colorScheme: const ColorScheme.dark(
-        primary: Colors.cyanAccent,
-        surface: Color(0xFF1B1F3B),
+  Widget _dateTheme(BuildContext context, Widget? child) {
+    return Theme(
+      data: ThemeData.light().copyWith(
+        primaryColor: Colors.blue,
+        colorScheme: const ColorScheme.light(primary: Colors.blue),
+        buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary),
       ),
-      dialogBackgroundColor: const Color(0xFF14172B),
-      textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(foregroundColor: Colors.cyanAccent),
-      ),
+      child: child!,
     );
   }
 

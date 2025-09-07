@@ -188,6 +188,7 @@ class _NearbyAutonomousScreenState extends State<NearbyAutonomousScreen>
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: _filtersRow(),
                   ),
+
                   const SizedBox(height: 12),
                   Expanded(
                     child: Padding(
@@ -281,8 +282,7 @@ class _NearbyAutonomousScreenState extends State<NearbyAutonomousScreen>
   }
 
   Widget _filtersRow() {
-    final filters = ['الكل', 'بطارية +70%', 'أقرب من 2 كم'];
-    final sorts = ['الأقرب', 'أسرع وصولاً', 'أعلى بطارية'];
+    final filters = ['الكل', 'الأقرب', 'بطارية +70%', 'أسرع وصولاً'];
     return Row(
       children: [
         Expanded(
@@ -290,14 +290,6 @@ class _NearbyAutonomousScreenState extends State<NearbyAutonomousScreen>
             values: filters,
             selected: _filter,
             onSelect: (v) => setState(() => _filter = v),
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: _segmented(
-            values: sorts,
-            selected: _sort,
-            onSelect: (v) => setState(() => _sort = v),
           ),
         ),
       ],
@@ -362,20 +354,31 @@ class _NearbyAutonomousScreenState extends State<NearbyAutonomousScreen>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      c.name,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      c.meta,
-                      style: const TextStyle(
-                        color: Colors.white60,
-                        fontSize: 12,
-                      ),
+                    Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              c.name,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              c.meta,
+                              style: const TextStyle(
+                                color: Colors.white60,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        _primaryButton('احجز', () => _bookCar(c)),
+                      ],
                     ),
                     const SizedBox(height: 8),
                     Row(
@@ -385,7 +388,7 @@ class _NearbyAutonomousScreenState extends State<NearbyAutonomousScreen>
                           label: '${c.battery}%',
                           glow: c.battery >= 80,
                         ),
-                        const SizedBox(width: 6),
+                        const SizedBox(width: 5),
                         _chip(
                           icon: Icons.place,
                           label: '${c.distanceKm.toStringAsFixed(1)} كم',
@@ -401,7 +404,6 @@ class _NearbyAutonomousScreenState extends State<NearbyAutonomousScreen>
                 ),
               ),
               const SizedBox(width: 10),
-              _primaryButton('احجز', () => _bookCar(c)),
             ],
           ),
         ),

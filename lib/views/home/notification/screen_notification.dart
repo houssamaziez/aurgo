@@ -143,9 +143,9 @@ class _NotificationsScreenState extends State<NotificationsScreen>
                         animation: animation,
                         builder: (context, child) {
                           return Transform.translate(
-                            offset: Offset(0, 50 * (1 - animation.value)),
+                            offset: Offset(0, 30 * (1 - animation.value)),
                             child: Opacity(
-                              opacity: animation.value,
+                              opacity: animation.value.clamp(0.0, 1.0),
                               child: child,
                             ),
                           );

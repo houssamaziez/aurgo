@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:aurgo/core/utle/extentions.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
@@ -13,40 +14,40 @@ class _RecentActivityScreenState extends State<RecentActivityScreen>
     with TickerProviderStateMixin {
   late AnimationController _bgCtrl;
   late AnimationController _listCtrl;
-  String _selectedFilter = "All";
+  String _selectedFilter = "الكل";
 
   final List<Map<String, dynamic>> _activities = [
     {
       "icon": LucideIcons.car,
       "title": "رحلة إلى وسط المدينة",
-      "subtitle": "دفعت 1200 DZD",
+      "subtitle": "تم دفع 1200 دج",
       "time": "قبل ساعتين",
-      "type": "Trip",
-      "status": "completed",
+      "type": "رحلة",
+      "status": "مكتملة",
     },
     {
       "icon": LucideIcons.creditCard,
       "title": "إضافة بطاقة جديدة",
       "subtitle": "بطاقة Visa **** 2345",
       "time": "أمس",
-      "type": "Payment",
-      "status": "success",
+      "type": "مدفوعات",
+      "status": "ناجحة",
     },
     {
       "icon": LucideIcons.bell,
       "title": "إشعار تذكير",
-      "subtitle": "لديك حجز سيارة ذاتية القيادة",
+      "subtitle": "لديك حجز لسيارة ذاتية القيادة",
       "time": "منذ 3 أيام",
-      "type": "Notification",
-      "status": "info",
+      "type": "إشعار",
+      "status": "معلومة",
     },
     {
       "icon": LucideIcons.mapPin,
-      "title": "تم استلامك من محطة",
+      "title": "تم استلامك من المحطة",
       "subtitle": "محطة الجزائر العاصمة",
       "time": "منذ أسبوع",
-      "type": "Trip",
-      "status": "completed",
+      "type": "رحلة",
+      "status": "مكتملة",
     },
   ];
 
@@ -74,29 +75,12 @@ class _RecentActivityScreenState extends State<RecentActivityScreen>
   @override
   Widget build(BuildContext context) {
     final filtered =
-        _selectedFilter == "All"
+        _selectedFilter == "الكل"
             ? _activities
             : _activities.where((a) => a["type"] == _selectedFilter).toList();
 
     return Scaffold(
       backgroundColor: Colors.grey.shade900,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: const Text(
-          "النشاط الأخير",
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        centerTitle: true,
-      ),
       body: Stack(
         children: [
           AnimatedBuilder(
@@ -108,9 +92,25 @@ class _RecentActivityScreenState extends State<RecentActivityScreen>
               );
             },
           ),
-
           Column(
             children: [
+              AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                title: const Text(
+                  "النشاط الأخير",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                centerTitle: true,
+              ),
               _buildFilterBar(),
               const SizedBox(height: 8),
               Expanded(
@@ -150,11 +150,11 @@ class _RecentActivityScreenState extends State<RecentActivityScreen>
           ),
         ],
       ),
-    );
+    ).withGradientBackground([]);
   }
 
   Widget _buildFilterBar() {
-    const filters = ["All", "Trip", "Payment", "Notification"];
+    const filters = ["الكل", "رحلة", "مدفوعات", "إشعار"];
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -186,9 +186,9 @@ class _RecentActivityScreenState extends State<RecentActivityScreen>
   Widget _activityCard(Map<String, dynamic> act) {
     final statusColor =
         {
-          "completed": Colors.greenAccent,
-          "success": Colors.blueAccent,
-          "info": Colors.orangeAccent,
+          "مكتملة": Colors.greenAccent,
+          "ناجحة": Colors.blueAccent,
+          "معلومة": Colors.orangeAccent,
         }[act["status"]]!;
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
@@ -221,7 +221,7 @@ class _RecentActivityScreenState extends State<RecentActivityScreen>
                 const SizedBox(height: 4),
                 Text(
                   act["subtitle"],
-                  style: TextStyle(color: Colors.white70, fontSize: 13),
+                  style: const TextStyle(color: Colors.white70, fontSize: 13),
                 ),
               ],
             ),

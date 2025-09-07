@@ -1,12 +1,16 @@
 import 'package:aurgo/core/utle/extentions.dart';
 import 'package:aurgo/views/home/RecentActivityScreen.dart';
+import 'package:aurgo/views/home/SpecialOfferScreen.dart';
+import 'package:aurgo/views/home/SupportScreen.dart';
+import 'package:aurgo/views/home/WalletScreen.dart';
 import 'package:aurgo/views/home/notification/screen_notification.dart';
 import 'package:aurgo/views/home/profile_user.dart';
+import 'package:aurgo/views/home_screen/widgets/OptionCard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:ui';
 
-import '../model/ServiceOption.dart';
+import '../../model/ServiceOption.dart';
 
 class FuturisticHomeScreen extends StatefulWidget {
   const FuturisticHomeScreen({super.key});
@@ -18,116 +22,6 @@ class FuturisticHomeScreen extends StatefulWidget {
 class _FuturisticHomeScreenState extends State<FuturisticHomeScreen>
     with SingleTickerProviderStateMixin {
   int _selectedQuickAction = -1;
-
-  Widget _buildOptionCard({
-    required Color color,
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required int index,
-    required Function onTap,
-  }) {
-    return TweenAnimationBuilder<double>(
-      tween: Tween(begin: 0, end: 1),
-      duration: Duration(milliseconds: 500 + index * 150),
-      curve: Curves.easeOutBack,
-      builder: (context, value, child) {
-        final v = value.clamp(0.0, 1.0);
-        return Transform.translate(
-          offset: Offset(0, (1 - v) * 50),
-          child: Opacity(opacity: v, child: child),
-        );
-      },
-      child: GestureDetector(
-        onTap: () => onTap(),
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [color.withOpacity(0.6), color],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CircleAvatar(
-                backgroundColor: Colors.white12,
-                child: Icon(icon, color: Colors.cyanAccent, size: 28),
-              ),
-              const SizedBox(height: 15),
-              Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18,
-                  letterSpacing: 0.5,
-                ),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                subtitle,
-                style: const TextStyle(color: Colors.white70, fontSize: 13),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildQuickAction(String title, IconData icon, int index) {
-    final isSelected = _selectedQuickAction == index;
-    return Expanded(
-      child: TweenAnimationBuilder<double>(
-        tween: Tween(begin: 0, end: 1),
-        duration: Duration(milliseconds: 400 + index * 100),
-        curve: Curves.easeOut,
-        builder: (context, value, child) {
-          final v = value.clamp(0.0, 1.0);
-          return Transform.translate(
-            offset: Offset(0, (1 - v) * 30),
-            child: Opacity(opacity: v, child: child),
-          );
-        },
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          height: 90,
-          margin: const EdgeInsets.symmetric(horizontal: 5),
-          decoration: BoxDecoration(
-            gradient:
-                isSelected
-                    ? LinearGradient(
-                      colors: [Colors.cyanAccent, Colors.blueAccent],
-                    )
-                    : LinearGradient(colors: [Colors.white10, Colors.white12]),
-            borderRadius: BorderRadius.circular(25),
-
-            border: Border.all(
-              color:
-                  isSelected
-                      ? Colors.cyanAccent.withOpacity(0.6)
-                      : Colors.white12,
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(icon, color: Colors.cyanAccent, size: 28),
-              const SizedBox(height: 5),
-              Text(
-                title,
-                style: const TextStyle(color: Colors.white70, fontSize: 13),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -188,13 +82,13 @@ class _FuturisticHomeScreenState extends State<FuturisticHomeScreen>
                             Icon(
                               Icons.notifications,
                               color: Colors.white,
-                              size: 30,
+                              size: 25,
                             ),
                             Positioned(
                               top: 0,
                               right: 0,
                               child: CircleAvatar(
-                                radius: 6,
+                                radius: 5,
                                 backgroundColor: Colors.red,
                               ),
                             ),
@@ -244,7 +138,7 @@ class _FuturisticHomeScreenState extends State<FuturisticHomeScreen>
                     itemCount: serviceOptions.length,
                     itemBuilder: (context, index) {
                       final opt = serviceOptions[index];
-                      return _buildOptionCard(
+                      return buildOptionCard(
                         color: opt.color as Color,
                         icon: opt.icon as IconData,
                         title: opt.title as String,
@@ -296,7 +190,9 @@ class _FuturisticHomeScreenState extends State<FuturisticHomeScreen>
                           ),
                           const SizedBox(height: 10),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.to(SpecialOfferScreen());
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.black,
                               shape: RoundedRectangleBorder(
@@ -328,25 +224,49 @@ class _FuturisticHomeScreenState extends State<FuturisticHomeScreen>
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Get.to(RecentActivityScreen());
-                        },
-                        child: _buildQuickAction(
-                          "الرحلات السابقة",
-                          Icons.history,
-                          0,
+                  Container(
+                    height: 80,
+                    width: double.infinity,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              Get.to(RecentActivityScreen());
+                            },
+                            child: _buildQuickAction(
+                              "الرحلات السابقة",
+                              Icons.history,
+                              0,
+                            ),
+                          ),
                         ),
-                      ),
-                      _buildQuickAction(
-                        "المحفظة",
-                        Icons.account_balance_wallet,
-                        1,
-                      ),
-                      _buildQuickAction("الدعم", Icons.headset_mic, 2),
-                    ],
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              Get.to(WalletScreen());
+                            },
+                            child: _buildQuickAction(
+                              "المحفظة",
+                              Icons.account_balance_wallet,
+                              1,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              Get.to(SupportScreen());
+                            },
+                            child: _buildQuickAction(
+                              "الدعم",
+                              Icons.headset_mic,
+                              2,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -359,4 +279,42 @@ class _FuturisticHomeScreenState extends State<FuturisticHomeScreen>
       Colors.deepPurple.withOpacity(0.1),
     ]);
   }
+}
+
+Widget _buildQuickAction(String title, IconData icon, int index) {
+  return TweenAnimationBuilder<double>(
+    tween: Tween(begin: 0, end: 1),
+    duration: Duration(milliseconds: 400 + index * 100),
+    curve: Curves.easeOut,
+    builder: (context, value, child) {
+      final v = value.clamp(0.0, 1.0);
+      return Transform.translate(
+        offset: Offset(0, (1 - v) * 30),
+        child: Opacity(opacity: v, child: child),
+      );
+    },
+    child: AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      height: 90,
+      margin: const EdgeInsets.symmetric(horizontal: 5),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(colors: [Colors.white10, Colors.white12]),
+        borderRadius: BorderRadius.circular(25),
+
+        border: Border.all(color: Colors.white12),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+
+        children: [
+          Icon(icon, color: Colors.cyanAccent, size: 28),
+          const SizedBox(height: 5),
+          Text(
+            title,
+            style: const TextStyle(color: Colors.white70, fontSize: 13),
+          ),
+        ],
+      ),
+    ),
+  );
 }

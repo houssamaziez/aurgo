@@ -55,7 +55,7 @@ class _StationPickupScreenState extends State<StationPickupScreen>
       etaMin: 18,
       code: 'ST-AP01',
       image:
-          'https://images.unsplash.com/photo-1505765051750-2a0ef8b7fb3b?auto=format&fit=crop&w=800&q=60',
+          'https://images.unsplash.com/photo-1509223197845-458d87318791?auto=format&fit=crop&w=800&q=60',
     ),
     _Station(
       name: 'محطة المدينة مول',
