@@ -1,5 +1,6 @@
 import 'package:aurgo/core/network/api_client.dart';
 import 'package:aurgo/core/network/api_response.dart';
+import 'package:aurgo/core/network/network_config.dart';
 import 'package:aurgo/model/user_model.dart';
 
 class UserRepository {
@@ -7,7 +8,9 @@ class UserRepository {
   UserRepository(this.apiClient);
 
   Future<ApiResponse<UserModel>> fetchProfile() async {
-    final resp = await apiClient.get<Map<String, dynamic>>('/profile');
+    final resp = await apiClient.get<Map<String, dynamic>>(
+      NetworkConfig.profilePath,
+    );
     if (resp.success && resp.data != null) {
       try {
         final userJson =

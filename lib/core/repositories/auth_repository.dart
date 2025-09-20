@@ -1,5 +1,6 @@
 import 'package:aurgo/core/network/api_client.dart';
 import 'package:aurgo/core/network/api_response.dart' show ApiResponse;
+import 'package:aurgo/core/network/network_config.dart';
 import 'package:aurgo/core/network/token_storage.dart';
 
 class AuthRepository {
@@ -11,7 +12,7 @@ class AuthRepository {
   Future<ApiResponse<String>> login(String login, String password) async {
     final body = {'login': login, 'password': password};
     final resp = await apiClient.post<Map<String, dynamic>>(
-      '/auth/login',
+      NetworkConfig.loginPath,
       data: body,
     );
     if (resp.success && resp.data != null) {

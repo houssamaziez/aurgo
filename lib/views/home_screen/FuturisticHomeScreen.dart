@@ -6,6 +6,7 @@ import 'package:aurgo/views/home/WalletScreen.dart';
 import 'package:aurgo/views/home/notification/screen_notification.dart';
 import 'package:aurgo/views/home/profile_user.dart';
 import 'package:aurgo/views/home_screen/widgets/OptionCard.dart';
+import 'package:aurgo/views/home_screen/widgets/header_home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:ui';
@@ -36,67 +37,7 @@ class _FuturisticHomeScreenState extends State<FuturisticHomeScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Header
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Get.to(ProfileSettingsScreen());
-                        },
-                        child: CircleAvatar(
-                          radius: 25,
-                          backgroundImage: NetworkImage(
-                            "https://i.pravatar.cc/150?img=3",
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
-                          Text(
-                            "مرحباً، حسام",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18,
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            "كيف يمكننا مساعدتك اليوم؟",
-                            style: TextStyle(
-                              color: Colors.white70,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      InkWell(
-                        onTap: () {
-                          Get.to(NotificationsScreen());
-                        },
-                        child: Stack(
-                          children: const [
-                            Icon(
-                              Icons.notifications,
-                              color: Colors.white,
-                              size: 25,
-                            ),
-                            Positioned(
-                              top: 0,
-                              right: 0,
-                              child: CircleAvatar(
-                                radius: 5,
-                                backgroundColor: Colors.red,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                  HeaderHome(),
                   const SizedBox(height: 20),
                   // Glassmorphic search bar
                   ClipRRect(

@@ -13,7 +13,7 @@ class NetworkManager {
       connectTimeout: NetworkConfig.connectTimeout,
       receiveTimeout: NetworkConfig.receiveTimeout,
       responseType: ResponseType.json,
-      headers: {'Accept': 'application/json'},
+      headers: {'Accept': '*/*'},
     );
 
     dio = Dio(options);
@@ -23,7 +23,7 @@ class NetworkManager {
         onRequest: (options, handler) async {
           final token = await tokenStorage.readToken();
           if (token != null && token.isNotEmpty) {
-            options.headers['Authorization'] = 'Bearer \$token';
+            options.headers['Authorization'] = 'Bearer $token';
           }
           return handler.next(options);
         },
