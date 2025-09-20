@@ -1,6 +1,11 @@
 import 'package:aurgo/core/utle/extentions.dart';
+import 'package:aurgo/views/auth/controller/auth_cintroller.dart';
+import 'package:aurgo/views/home/user/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:get/route_manager.dart';
 
 class ProfileSettingsScreen extends StatefulWidget {
   const ProfileSettingsScreen({super.key});
@@ -178,56 +183,68 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen>
                     ),
                   ),
                   const Spacer(),
-                  const Icon(Icons.edit, color: Colors.white70),
+                  IconButton(
+                    onPressed: () {
+                      Get.to(EditProfileScreen());
+                    },
+                    icon: const Icon(Icons.edit, color: Colors.white70),
+                  ),
                 ],
               ),
             ),
             const SizedBox(height: 20),
 
             /// PROFILE CARD
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                gradient: const LinearGradient(
-                  colors: [Color(0xFF00E5FF), Color(0xFF0099FF)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-              child: Row(
-                children: [
-                  const CircleAvatar(
-                    radius: 40,
-                    backgroundImage: NetworkImage(
-                      "https://i.pravatar.cc/150?img=3",
+            GetBuilder<AuthController>(
+              builder: (controller) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF00E5FF), Color(0xFF0099FF)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
                     ),
                   ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          "حسام الدين",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+                  child: Row(
+                    children: [
+                      const CircleAvatar(
+                        radius: 40,
+                        backgroundImage: NetworkImage(
+                          "https://i.pravatar.cc/150?img=3",
                         ),
-                        SizedBox(height: 6),
-                        Text(
-                          "houssam@example.com",
-                          style: TextStyle(fontSize: 14, color: Colors.white70),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              controller.user!.name,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(height: 6),
+                            Text(
+                              controller.user!.email,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white70,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                      const Icon(Icons.settings, color: Colors.white),
+                    ],
                   ),
-                  const Icon(Icons.settings, color: Colors.white),
-                ],
-              ),
+                );
+              },
             ),
             const SizedBox(height: 30),
 

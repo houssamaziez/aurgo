@@ -35,4 +35,35 @@ class AuthRepository {
     await tokenStorage.deleteToken();
     // optionally call server revoke endpoint
   }
+
+  Future<ApiResponse<Map<String, dynamic>>> updateProfile({
+    String? name,
+    String? email,
+    String? phone,
+    String? region,
+  }) async {
+    final body = {
+      if (name != null) 'name': name,
+      if (email != null) 'email': email,
+      if (phone != null) 'phone': phone,
+      if (region != null) 'region': region,
+    };
+
+    final resp = await apiClient.post<Map<String, dynamic>>(
+      NetworkConfig.updateProfilePath,
+      data: body,
+    );
+
+    if (resp.success && resp.data != null) {
+      return ApiResponse.success(
+        resp.data as Map<String, dynamic>,
+        statusCode: resp.statusCode,
+      );
+    }
+
+    return ApiResponse.failure(
+      message: resp.message ?? 'Profile update failed',
+      statusCode: resp.statusCode,
+    );
+  }
 }

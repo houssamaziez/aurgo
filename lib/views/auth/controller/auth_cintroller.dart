@@ -19,6 +19,8 @@ class AuthController extends GetxController {
     text: "12345678",
   );
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController regionController = TextEditingController();
 
   // Dependencies
   late final AppDependencies deps;
@@ -57,11 +59,71 @@ class AuthController extends GetxController {
     update();
   }
 
+  final TextEditingController updateNameController = TextEditingController(
+    text: "John Doe",
+  );
+  final TextEditingController UpdateEmailController = TextEditingController(
+    text: "john@example.com",
+  );
+  final TextEditingController UpdatePhoneController = TextEditingController(
+    text: "+966512345678",
+  );
+  final TextEditingController UpdateRegionController = TextEditingController(
+    text: "Riyadh",
+  );
+  Future<void> updateProfile() async {
+    if (user == null) {
+      Get.snackbar("Error", "User not logged in");
+      return;
+    }
+
+    isLoading = true;
+    update();
+
+    final resp = await deps.authRepository.updateProfile(
+      name:
+          updateNameController.text.trim().isEmpty
+              ? null
+              : updateNameController.text.trim(),
+      email:
+          UpdateEmailController.text.trim().isEmpty
+              ? null
+              : UpdateEmailController.text.trim(),
+      phone:
+          UpdatePhoneController.text.trim().isEmpty
+              ? null
+              : UpdatePhoneController.text.trim(),
+      region:
+          UpdateRegionController.text.trim().isEmpty
+              ? null
+              : UpdateRegionController.text.trim(),
+    );
+
+    if (resp.success && resp.data != null) {
+      final profileResp = await deps.userRepository.fetchProfile();
+      if (profileResp.success && profileResp.data != null) {
+        user = profileResp.data!;
+        Get.snackbar(
+          "Success",
+          "تم تحديث الملف الشخصي",
+          colorText: Colors.white,
+        );
+      }
+    } else {
+      Get.snackbar("Update Failed", resp.message ?? "Unknown error");
+    }
+
+    isLoading = false;
+    update();
+  }
+
   @override
   void onClose() {
     emailController.dispose();
     passwordController.dispose();
     nameController.dispose();
+    phoneController.dispose();
+    regionController.dispose();
     super.onClose();
   }
 }

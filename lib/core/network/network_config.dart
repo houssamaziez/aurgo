@@ -5,4 +5,5 @@ class NetworkConfig {
 
   static String loginPath = '/auth/login';
   static String profilePath = '/auth/profile';
+  static String updateProfilePath = '/auth/update-profile';
 }
