@@ -10,10 +10,6 @@ import 'package:aurgo/views/driver/TasksScreen.dart';
 import 'package:aurgo/views/driver/TripsHistoryScreen.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const DriverApp());
-}
-
 class DriverApp extends StatelessWidget {
   const DriverApp({super.key});
 
