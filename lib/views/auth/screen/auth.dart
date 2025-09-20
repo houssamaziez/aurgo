@@ -1,0 +1,236 @@
+import 'package:aurgo/views/auth/controller/auth_cintroller.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../home_screen/FuturisticHomeScreen.dart';
+
+class FuturisticLoginScreen extends StatefulWidget {
+  const FuturisticLoginScreen({super.key});
+
+  @override
+  State<FuturisticLoginScreen> createState() => _FuturisticLoginScreenState();
+}
+
+class _FuturisticLoginScreenState extends State<FuturisticLoginScreen> {
+  Widget _textField({
+    required String hint,
+    required IconData icon,
+    bool isPassword = false,
+    required TextEditingController controller,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 18),
+      child: TextField(
+        controller: controller,
+        obscureText: isPassword,
+        style: const TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          hintText: hint,
+          hintStyle: const TextStyle(color: Colors.white54),
+          prefixIcon: Icon(icon, color: Colors.cyanAccent),
+          filled: true,
+          fillColor: Colors.white.withOpacity(0.08),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(18),
+            borderSide: BorderSide(color: Colors.cyanAccent.withOpacity(0.3)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(18),
+            borderSide: const BorderSide(color: Colors.cyanAccent, width: 1.5),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/background.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.black.withOpacity(0.5),
+        body: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(18),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: const LinearGradient(
+                      colors: [Colors.cyanAccent, Colors.blueAccent],
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.cyanAccent.withOpacity(.38),
+                        blurRadius: 14,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
+                  ),
+                  child: const CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.transparent,
+                    child: Icon(
+                      Icons.car_rental,
+                      size: 50,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 25),
+
+                GetBuilder<AuthCintroller>(
+                  init: AuthCintroller(),
+                  builder: (_controller) {
+                    return Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(25),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.05),
+                        borderRadius: BorderRadius.circular(25),
+                        border: Border.all(
+                          color: Colors.cyanAccent.withOpacity(0.3),
+                          width: 1.2,
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            _controller.isLogin ? "تسجيل الدخول" : "إنشاء حساب",
+                            style: const TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.cyanAccent,
+                            ),
+                          ),
+                          const SizedBox(height: 25),
+
+                          if (!_controller.isLogin)
+                            _textField(
+                              controller: _controller.nameController,
+                              hint: "الاسم الكامل",
+                              icon: Icons.person,
+                            ),
+                          _textField(
+                            controller: _controller.emailController,
+                            hint: "البريد الإلكتروني",
+                            icon: Icons.email,
+                          ),
+                          _textField(
+                            controller: _controller.passwordController,
+                            hint: "كلمة المرور",
+                            icon: Icons.lock,
+                            isPassword: true,
+                          ),
+
+                          const SizedBox(height: 10),
+
+                          GetBuilder<AuthCintroller>(
+                            init: AuthCintroller(),
+                            builder: (_controller) {
+                              return SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    _controller.login();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 15,
+                                    ),
+                                    backgroundColor: Colors.transparent,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18),
+                                    ),
+                                    elevation: 0,
+                                  ).copyWith(
+                                    shadowColor: MaterialStateProperty.all(
+                                      Colors.cyanAccent.withOpacity(.4),
+                                    ),
+                                    backgroundColor: MaterialStateProperty.all(
+                                      Colors.transparent,
+                                    ),
+                                  ),
+                                  child: Ink(
+                                    decoration: BoxDecoration(
+                                      gradient: const LinearGradient(
+                                        colors: [
+                                          Colors.cyanAccent,
+                                          Colors.blueAccent,
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.circular(18),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.cyanAccent.withOpacity(
+                                            .38,
+                                          ),
+                                          blurRadius: 10,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 12,
+                                      ),
+                                      child: Text(
+                                        _controller.isLogin
+                                            ? "تسجيل الدخول"
+                                            : "إنشاء حساب",
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black87,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+
+                          const SizedBox(height: 15),
+                          GetBuilder<AuthCintroller>(
+                            init: AuthCintroller(),
+                            builder: (_controller) {
+                              return TextButton(
+                                onPressed: () {
+                                  _controller.isLogin = !_controller.isLogin;
+                                  _controller.update();
+                                },
+                                child: Text(
+                                  _controller.isLogin
+                                      ? "ليس لديك حساب؟ إنشاء حساب"
+                                      : "لديك حساب؟ تسجيل الدخول",
+                                  style: const TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

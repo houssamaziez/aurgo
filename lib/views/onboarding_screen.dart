@@ -1,4 +1,4 @@
-import 'package:aurgo/views/auth.dart';
+import 'package:aurgo/views/auth/screen/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

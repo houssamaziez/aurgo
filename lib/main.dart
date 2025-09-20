@@ -3,6 +3,8 @@ import 'package:aurgo/views/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
+import 'views/auth/screen/auth.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: DriverApp(),
+      home: FuturisticLoginScreen(),
     );
   }
 }
